@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Muzan Mind Reader</title>
+  <style>
+    body {
+      background-color: #111;
+      color: #eee;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding: 40px;
+    }
+    .step {
+      display: none;
+      font-size: 1.3rem;
+      margin: 20px auto;
+      max-width: 600px;
+    }
+    .visible {
+      display: block;
+    }
+    button {
+      background-color: crimson;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    #symbolChart {
+      display: none;
+      font-family: monospace;
+      font-size: 1.2rem;
+      margin-top: 20px;
+      white-space: pre-wrap;
+    }
+    #revealSymbol {
+      font-size: 4rem;
+      margin-top: 30px;
+      display: none;
+      animation: fadeIn 2s ease-in forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <h1>🧠 Muzan Reads Your Mind</h1>
+
+  <div class="step visible" id="step1">
+    <p>Think of any two-digit number. Keep it in your mind. Don't type it.</p>
+    <button onclick="nextStep(2)">Done</button>
+  </div>
+
+  <div class="step" id="step2">
+    <p>Now add both digits of your number together.<br>Example: 54 → 5 + 4 = 9</p>
+    <button onclick="nextStep(3)">Next</button>
+  </div>
+
+  <div class="step" id="step3">
+    <p>Now subtract that result from your original number.<br>Example: 54 - 9 = 45</p>
+    <button onclick="showChart()">Reveal Symbol Chart</button>
+  </div>
+
+  <div class="step" id="step4">
+    <p>Find your number in the chart below and memorize the symbol beside it. Don't say it out loud.</p>
+    <pre id="symbolChart"></pre>
+    <button onclick="revealMind()">Reveal What You're Thinking</button>
+  </div>
+
+  <div id="revealSymbol">☠️</div>
+
+  <script>
+    const masterSymbol = "☠️";
+
+    function nextStep(stepNum) {
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('visible'));
+      document.getElementById(`step${stepNum}`).classList.add('visible');
+    }
+
+    function showChart() {
+      nextStep(4);
+
+      const symbols = ["☠️", "🩸", "🕷️", "🧛", "🦇", "💀", "👁️", "🔮", "🐍"];
+      let chart = "";
+      for (let i = 0; i <= 99; i++) {
+        let symbol = (i % 9 === 0) ? masterSymbol : symbols[Math.floor(Math.random() * symbols.length)];
+        chart += `${i} : ${symbol}\n`;
+      }
+      document.getElementById("symbolChart").style.display = "block";
+      document.getElementById("symbolChart").textContent = chart;
+    }
+
+    function revealMind() {
+      document.getElementById("revealSymbol").style.display = "block";
+    }
+  </script>
+</body>
+</html>

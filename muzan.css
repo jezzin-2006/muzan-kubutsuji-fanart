@@ -1,0 +1,33 @@
+
+    .card-img-top {
+      object-fit: cover;
+      height: 200px;
+    }
+  
+  
+  html {
+    scroll-behavior: smooth;
+  }
+
+  .muzan-heading {
+    font-family: 'Cinzel', serif;
+    font-size: 3rem;
+    text-align: center;
+    color: crimson;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9);
+    margin-top: 30px;
+    animation: fadeInGlow 1.5s ease-in-out both;
+  }
+
+  @keyframes fadeInGlow {
+    0% {
+      opacity: 0;
+      transform: translateY(-20px);
+      text-shadow: none;
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9);
+    }
+  }
