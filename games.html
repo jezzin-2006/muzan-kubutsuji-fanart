@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Choose Your Curse</title>
+  <style>
+    body {
+      background-color: #0b0b0b;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding: 50px;
+    }
+    h1 {
+      font-size: 3rem;
+      color: crimson;
+      margin-bottom: 40px;
+      text-shadow: 0 0 10px red;
+    }
+    .game-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+    }
+    .game-card {
+      background: #1a1a1a;
+      padding: 20px;
+      border-radius: 12px;
+      width: 250px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+    .game-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px crimson;
+    }
+    .game-card img {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+    .game-card h2 {
+      margin: 10px 0;
+      font-size: 1.5rem;
+    }
+    .game-card p {
+      font-size: 0.95rem;
+      color: #ccc;
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>🕹️ Choose Your Curse</h1>
+  <div class="game-container">
+    
+    <a href="game2.html">
+      <div class="game-card">
+        <img src="jump.jpg" alt="Demon Runner" />
+        <h2>Demon Runner</h2>
+        <p>Dodge Nezuko’s box and crows as the demon dashes forward into the eternal night!</p>
+      </div>
+    </a>
+
+    <a href="game1.html">
+      <div class="game-card">
+        <img src="mind.jpg" alt="Mind Reading" />
+        <h2>Mind Reader</h2>
+        <p>Muzan knows what you're thinking. Test your thoughts against his mind reading curse.</p>
+      </div>
+    </a>
+
+    <!-- Add more games here -->
+    
+  </div>
+</body>
+</html>
