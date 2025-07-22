@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Muzan's XOX Challenge</title>
+  <style>
+    body {
+      background-color: #0b0b0b;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      color: crimson;
+      text-shadow: 0 0 10px crimson;
+      margin-bottom: 20px;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      gap: 10px;
+    }
+
+    .cell {
+      width: 100px;
+      height: 100px;
+      background-color: #1a1a1a;
+      border: 2px solid crimson;
+      font-size: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .cell:hover {
+      background-color: #2a2a2a;
+    }
+
+    #status {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      color: #ccc;
+    }
+
+    .restart {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: crimson;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .restart:hover {
+      background-color: darkred;
+    }
+  </style>
+</head>
+<body>
+  <h1>💀 Muzan’s XOX Challenge</h1>
+  <div class="board" id="board"></div>
+  <div id="status">You are O. Muzan is X. Stop him if you can!</div>
+  <button class="restart" onclick="startGame()">Restart</button>
+
+  <script>
+    const boardElement = document.getElementById('board');
+    const statusElement = document.getElementById('status');
+    let board = Array(9).fill('');
+    let gameOver = false;
+
+    function startGame() {
+      board = Array(9).fill('');
+      gameOver = false;
+      statusElement.textContent = "You are O. Muzan is X. Stop him if you can!";
+      renderBoard();
+      // Muzan starts first
+      setTimeout(muzanMove, 500);
+    }
+
+    function renderBoard() {
+      boardElement.innerHTML = '';
+      board.forEach((cell, index) => {
+        const div = document.createElement('div');
+        div.classList.add('cell');
+        div.textContent = cell;
+        div.addEventListener('click', () => playerMove(index));
+        boardElement.appendChild(div);
+      });
+    }
+
+    function playerMove(index) {
+      if (gameOver || board[index] !== '') return;
+      board[index] = 'O';
+      renderBoard();
+      if (checkWin('O')) {
+        statusElement.textContent = "🎉 You defeated Muzan!";
+        gameOver = true;
+        return;
+      } else if (board.every(c => c !== '')) {
+        statusElement.textContent = "😐 It's a draw!";
+        gameOver = true;
+        return;
+      }
+      setTimeout(muzanMove, 500);
+    }
+
+    function muzanMove() {
+      if (gameOver) return;
+      const move = getBestMove('X');
+      if (move !== -1) {
+        board[move] = 'X';
+        renderBoard();
+        if (checkWin('X')) {
+          statusElement.textContent = "😈 Muzan wins. You're cursed!";
+          gameOver = true;
+        } else if (board.every(c => c !== '')) {
+          statusElement.textContent = "😐 It's a draw!";
+          gameOver = true;
+        }
+      }
+    }
+
+    function getBestMove(player) {
+      const opponent = player === 'X' ? 'O' : 'X';
+
+      // Try to win
+      for (let i = 0; i < 9; i++) {
+        if (board[i] === '') {
+          board[i] = player;
+          if (checkWin(player)) {
+            board[i] = '';
+            return i;
+          }
+          board[i] = '';
+        }
+      }
+
+      // Try to block opponent
+      for (let i = 0; i < 9; i++) {
+        if (board[i] === '') {
+          board[i] = opponent;
+          if (checkWin(opponent)) {
+            board[i] = '';
+            return i;
+          }
+          board[i] = '';
+        }
+      }
+
+      // Take center
+      if (board[4] === '') return 4;
+
+      // Take corners
+      const corners = [0, 2, 6, 8].filter(i => board[i] === '');
+      if (corners.length) return corners[Math.floor(Math.random() * corners.length)];
+
+      // Take sides
+      const sides = [1, 3, 5, 7].filter(i => board[i] === '');
+      if (sides.length) return sides[Math.floor(Math.random() * sides.length)];
+
+      return -1;
+    }
+
+    function checkWin(player) {
+      const wins = [
+        [0,1,2],[3,4,5],[6,7,8],
+        [0,3,6],[1,4,7],[2,5,8],
+        [0,4,8],[2,4,6]
+      ];
+      return wins.some(comb => comb.every(i => board[i] === player));
+    }
+
+    // Start the game
+    startGame();
+  </script>
+</body>
+</html>
+
