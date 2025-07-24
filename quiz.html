@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Demon Slayer Quiz Game</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #1b1b1b;
+      color: #f8f8f8;
+      font-family: 'Cinzel', serif;
+      padding: 20px;
+      margin: 0;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    h1 {
+      color: #c2185b;
+      font-size: 2.5rem;
+    }
+    #lives {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 1.2rem;
+    }
+    .quiz-box {
+      max-width: 700px;
+      margin: 0 auto;
+      background-color: #2c2c2c;
+      padding: 30px;
+      border-radius: 10px;
+    }
+    .question {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+    }
+    .choices button {
+      display: block;
+      width: 100%;
+      background-color: #444;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .choices button:hover {
+      background-color: #c2185b;
+    }
+    #result {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 1.3rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🩸 Demon Slayer Quiz 🩸</h1>
+    <div id="lives">Lives: 🩸🩸🩸🩸🩸</div>
+  </header>
+  <div class="quiz-box">
+    <div class="question" id="question">Loading...</div>
+    <div class="choices" id="choices"></div>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "What is Tanjiro's breathing style?",
+        choices: ["Wind Breathing", "Water Breathing", "Flame Breathing", "Stone Breathing"],
+        answer: 1
+      },
+      {
+        question: "Who turned Nezuko into a demon?",
+        choices: ["Akaza", "Kibutsuji Muzan", "Rui", "Daki"],
+        answer: 1
+      },
+  
+  {
+    question: "Which Hashira uses Sound Breathing?",
+    choices: ["Tengen Uzui", "Sanemi Shinazugawa", "Giyu Tomioka", "Mitsuri Kanroji"],
+    answer: 0
+  },
+  {
+    question: "Who is the Flame Hashira?",
+    choices: ["Kyojuro Rengoku", "Tengen Uzui", "Muichiro Tokito", "Shinobu Kocho"],
+    answer: 0
+  },
+  {
+    question: "What item does Tanjiro wear on his forehead?",
+    choices: ["A scar", "A warding charm", "A demon mark", "A cursed seal"],
+    answer: 0
+  },
+  {
+    question: "Who leads the Demon Slayer Corps?",
+    choices: ["Kagaya Ubuyashiki", "Giyu Tomioka", "Shinjuro Rengoku", "Kanao Tsuyuri"],
+    answer: 0
+  },
+  {
+    question: "Which demon uses threads as a weapon?",
+    choices: ["Rui", "Daki", "Gyokko", "Enmu"],
+    answer: 0
+  },
+  {
+    question: "What rank is Muzan Kibutsuji?",
+    choices: ["Lower Moon One", "Upper Moon One", "He has no rank", "Upper Moon Six"],
+    answer: 2
+  },
+  {
+    question: "What breathing style does Zenitsu use?",
+    choices: ["Beast Breathing", "Thunder Breathing", "Flower Breathing", "Mist Breathing"],
+    answer: 1
+  },
+  {
+    question: "Which demon caused the Mugen Train incident?",
+    choices: ["Akaza", "Enmu", "Daki", "Gyutaro"],
+    answer: 1
+  },
+  {
+    question: "Who is Nezuko’s brother?",
+    choices: ["Zenitsu", "Tanjiro", "Inosuke", "Kanao"],
+    answer: 1
+  },
+  {
+    question: "What is the name of Inosuke's mask?",
+    choices: ["Boar Mask", "Wolf Mask", "Beast Hide", "Pig Helmet"],
+    answer: 0
+  },
+  {
+    question: "What is the power of Upper Moon Three, Akaza?",
+    choices: ["Dream manipulation", "Thread control", "Hand-to-hand combat & shockwaves", "Poisonous mist"],
+    answer: 2
+  },
+  {
+    question: "Which Hashira is allergic to cats?",
+    choices: ["Gyomei", "Obanai", "Giyu", "Tengen"],
+    answer: 1
+  },
+  {
+    question: "What is the final form of Tanjiro's sword?",
+    choices: ["Red Nichirin Blade", "Purple Flame Blade", "Blue Water Blade", "Black Crescent Blade"],
+    answer: 0
+  },
+  {
+    question: "Who uses Insect Breathing?",
+    choices: ["Shinobu Kocho", "Kanao Tsuyuri", "Mitsuri Kanroji", "Muichiro Tokito"],
+    answer: 0
+  },
+  {
+    question: "What is Muzan’s true weakness?",
+    choices: ["Sunlight", "Nichirin sword", "Poison", "Love"],
+    answer: 0
+  },
+  {
+    question: "Who is the Mist Hashira?",
+    choices: ["Muichiro Tokito", "Sanemi Shinazugawa", "Giyu Tomioka", "Obanai Iguro"],
+    answer: 0
+  },
+  {
+    question: "What is the color of Tanjiro’s initial sword?",
+    choices: ["Black", "Red", "Blue", "Silver"],
+    answer: 0
+  },
+  {
+    question: "Who fights alongside his sister Daki?",
+    choices: ["Gyutaro", "Akaza", "Enmu", "Hantengu"],
+    answer: 0
+  },
+  {
+    question: "What emotion empowers Genya Shinazugawa?",
+    choices: ["Rage", "Hope", "Guilt", "Fear"],
+    answer: 0
+  },
+  {
+    question: "Who is Upper Moon One?",
+    choices: ["Kokushibo", "Gyokko", "Akaza", "Douma"],
+    answer: 0
+  },
+  {
+    question: "Which demon was once a Hashira?",
+    choices: ["Akaza", "Kokushibo", "Douma", "Gyutaro"],
+    answer: 1
+  },
+  {
+    question: "What is Enmu’s signature ability?",
+    choices: ["Dream magic", "Blood claws", "Beast mutations", "Sonic scream"],
+    answer: 0
+  },
+  {
+    question: "Which character survives through sheer will after being poisoned?",
+    choices: ["Kanao Tsuyuri", "Tanjiro", "Inosuke", "Zenitsu"],
+    answer: 2
+  },
+  {
+    question: "What does the crow deliver to Demon Slayers?",
+    choices: ["Food", "Orders", "Money", "Magic spells"],
+    answer: 1
+  },
+  {
+    question: "Where do the Final Selection trials take place?",
+    choices: ["Mount Natagumo", "Swordsmith Village", "Fujikasane Mountain", "Sun Mansion"],
+    answer: 2
+  },
+  {
+    question: "Who saves Tanjiro during the Mugen Train arc?",
+    choices: ["Rengoku", "Shinobu", "Inosuke", "Muichiro"],
+    answer: 0
+  },
+  {
+    question: "Which demon uses ice techniques?",
+    choices: ["Douma", "Gyokko", "Enmu", "Kokushibo"],
+    answer: 0
+  },
+  {
+    question: "Which Upper Moon has multiple clones?",
+    choices: ["Hantengu", "Gyokko", "Douma", "Akaza"],
+    answer: 0
+  },
+  {
+    question: "What organization do the Hashira belong to?",
+    choices: ["Demon Society", "Slayer Guild", "Demon Slayer Corps", "Breathing Order"],
+    answer: 2
+  },
+  {
+    question: "Which breathing style uses love-based attacks?",
+    choices: ["Insect Breathing", "Flower Breathing", "Love Breathing", "Wind Breathing"],
+    answer: 2
+  },
+  {
+    question: "Who is the Snake Hashira?",
+    choices: ["Obanai Iguro", "Sanemi Shinazugawa", "Muichiro Tokito", "Gyomei Himejima"],
+    answer: 0
+  },
+  {
+    question: "Which Upper Moon uses jars for attacks?",
+    choices: ["Gyokko", "Akaza", "Douma", "Gyutaro"],
+    answer: 0
+  },
+  {
+    question: "What creature follows Obanai?",
+    choices: ["Crow", "Snake", "Cat", "Fox"],
+    answer: 1
+  },
+  {
+    question: "What is Tanjiro’s ultimate breathing technique?",
+    choices: ["Hinokami Kagura", "Mist Dance", "Moon Rise", "Demon Fang"],
+    answer: 0
+  },
+  {
+    question: "What is the rare mark on some elite slayers called?",
+    choices: ["Blood Seal", "Demon Crest", "Slayer Mark", "Flame Tattoo"],
+    answer: 2
+  },
+  {
+    question: "Which sibling demons disguise themselves in the Entertainment District?",
+    choices: ["Gyutaro and Daki", "Akaza and Rui", "Douma and Enmu", "Kokushibo and Gyokko"],
+    answer: 0
+  },
+  {
+    question: "Which Hashira uses brute strength and prayer beads?",
+    choices: ["Gyomei Himejima", "Sanemi Shinazugawa", "Giyu Tomioka", "Muichiro Tokito"],
+    answer: 0
+  },
+  {
+    question: "What’s the rare metal that Nichirin blades are made of?",
+    choices: ["Celestial Iron", "Sun Steel", "Scarlet Ore", "Demon Alloy"],
+    answer: 2
+  },
+  {
+    question: "Which Hashira had a tragic love story?",
+    choices: ["Obanai Iguro", "Rengoku", "Shinobu Kocho", "Muichiro"],
+    answer: 0
+  },
+  {
+    question: "Which Hashira has superhuman hearing?",
+    choices: ["Muichiro", "Zenitsu", "Inosuke", "Tengen Uzui"],
+    answer: 1
+  },
+  {
+  question: "What does Muzan fear the most?",
+  choices: ["Tanjiro's sword", "The Hashira", "Sunlight", "Demon Slayer mark"],
+  answer: 2
+},
+{
+  question: "What color are Nezuko’s eyes in her demon form?",
+  choices: ["Red", "Pink", "Orange", "Green"],
+  answer: 1
+},
+{
+  question: "Which character becomes the Flower Hashira’s protégé?",
+  choices: ["Tanjiro", "Kanao Tsuyuri", "Zenitsu", "Shinobu Kocho"],
+  answer: 1
+},
+{
+  question: "What does Tanjiro smell that helps him detect enemies?",
+  choices: ["Blood", "Fear", "Weakness", "Intent to kill"],
+  answer: 3
+},
+{
+  question: "Who has the ability to shrink and change size?",
+  choices: ["Gyokko", "Nezuko", "Douma", "Daki"],
+  answer: 1
+},
+{
+  question: "Which demon has a sibling relationship with Gyutaro?",
+  choices: ["Enmu", "Kokushibo", "Akaza", "Daki"],
+  answer: 3
+},
+{
+  question: "What is the meaning behind Tanjiro’s earrings?",
+  choices: ["Slayer insignia", "Sun Breathing heritage", "Hashira legacy", "Family crest"],
+  answer: 1
+},
+]
+
+    let current = 0;
+    let lives = 5;
+
+    const questionEl = document.getElementById("question");
+    const choicesEl = document.getElementById("choices");
+    const resultEl = document.getElementById("result");
+    const livesEl = document.getElementById("lives");
+
+    function updateLives() {
+      livesEl.innerHTML = `Lives: ${"🩸".repeat(lives)}`;
+    }
+
+    function showQuestion() {
+      if (current >= questions.length) {
+        resultEl.innerHTML = "🟢 Congratulations! You completed the Muzan Trial!";
+        questionEl.style.display = "none";
+        choicesEl.style.display = "none";
+        return;
+      }
+
+      questionEl.textContent = `Q${current + 1}: ${questions[current].question}`;
+      choicesEl.innerHTML = "";
+      questions[current].choices.forEach((choice, index) => {
+        const btn = document.createElement("button");
+        btn.textContent = choice;
+        btn.onclick = () => {
+          if (index === questions[current].answer) {
+            current++;
+            showQuestion();
+          } else {
+            lives--;
+            updateLives();
+            if (lives <= 0) {
+              questionEl.style.display = "none";
+              choicesEl.style.display = "none";
+              resultEl.innerHTML = `<span style="color:#c2185b">
+                ☠️ You have failed...<br><br>
+                "Pathetic. You thought you could challenge me with such feeble knowledge? Crawl back into obscurity. You are not worthy of this world." – Muzan Kibutsuji
+              </span>`;
+            } else {
+              resultEl.textContent = "Incorrect! Try again...";
+            }
+          }
+        };
+        choicesEl.appendChild(btn);
+      });
+    }
+
+    showQuestion();
+    updateLives();
+  </script>
+</body>
+</html>
